@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ modo === 'crear' ? 'Nuevo Trabajo' : 'Editar Trabajo' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="trabajo.Nombre" placeholder="Nombre del trabajo"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="success" class="ion-margin-top" (click)="guardar()">
+    Guardar
+  </ion-button>
+
+</ion-content>

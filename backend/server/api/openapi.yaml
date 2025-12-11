@@ -1,0 +1,206 @@
+openapi: 3.0.3
+info:
+  title: DISM API
+  description: API REST para la práctica DISM (Usuarios, Trabajos y Fichajes)
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080
+paths:
+
+  /ping:
+    get:
+      summary: Verifica que el servidor está activo
+      responses:
+        '200':
+          description: OK
+
+  /usuarios:
+    get:
+      summary: Listar todos los usuarios
+      responses:
+        '200':
+          description: Lista de usuarios
+    post:
+      summary: Crear nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '201':
+          description: Usuario creado
+
+  /usuarios/{id}:
+    get:
+      summary: Obtener un usuario por ID
+      parameters:
+        - in: path
+          name: id
+          schema: { type: integer }
+          required: true
+      responses:
+        '200': { description: OK }
+    put:
+      summary: Actualizar usuario
+      parameters:
+        - in: path
+          name: id
+          schema: { type: integer }
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200': { description: Actualizado }
+    delete:
+      summary: Eliminar usuario
+      parameters:
+        - in: path
+          name: id
+          schema: { type: integer }
+          required: true
+      responses:
+        '204': { description: Eliminado }
+
+  /trabajos:
+    get:
+      summary: Listar todos los trabajos
+      responses:
+        '200': { description: Lista de trabajos }
+    post:
+      summary: Crear nuevo trabajo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trabajo'
+      responses:
+        '201': { description: Creado }
+
+  /trabajos/{id}:
+    get:
+      summary: Obtener trabajo por ID
+      parameters:
+        - in: path
+          name: id
+          schema: { type: integer }
+          required: true
+      responses:
+        '200': { description: OK }
+    put:
+      summary: Actualizar trabajo
+      parameters:
+        - in: path
+          name: id
+          schema: { type: integer }
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trabajo'
+      responses:
+        '200': { description: Actualizado }
+    delete:
+      summary: Eliminar trabajo
+      parameters:
+        - in: path
+          name: id
+          schema: { type: integer }
+          required: true
+      responses:
+        '204': { description: Eliminado }
+
+  /fichajes:
+    get:
+      summary: Listar fichajes (opcionalmente por usuario y fechas)
+      parameters:
+        - in: query
+          name: idUsuario
+          schema: { type: integer }
+        - in: query
+          name: desde
+          schema: { type: string, format: date-time }
+        - in: query
+          name: hasta
+          schema: { type: string, format: date-time }
+      responses:
+        '200': { description: Lista de fichajes }
+    post:
+      summary: Crear nuevo fichaje (inicio)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fichaje'
+      responses:
+        '201': { description: Creado }
+
+  /fichajes/{id}/cerrar:
+    put:
+      summary: Cerrar fichaje (registrar hora de salida)
+      parameters:
+        - in: path
+          name: id
+          schema: { type: integer }
+          required: true
+      responses:
+        '200': { description: Fichaje cerrado }
+
+  /fichajes/ultimo:
+    get:
+      summary: Obtener el último fichaje del usuario
+      parameters:
+        - in: query
+          name: idUsuario
+          schema: { type: integer }
+          required: true
+      responses:
+        '200': { description: Último fichaje }
+
+  /apikey/validar:
+    get:
+      summary: Validar la API Key
+      parameters:
+        - in: header
+          name: x-api-key
+          schema: { type: string }
+          required: true
+      responses:
+        '200': { description: Validación exitosa }
+
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        IdUsuario: { type: integer, example: 1 }
+        Nombre: { type: string, example: "Ana Pérez" }
+        Usuario: { type: string, example: "ana" }
+        Clave: { type: string, example: "1234" }
+
+    Trabajo:
+      type: object
+      properties:
+        IdTrabajo: { type: integer, example: 10 }
+        Nombre: { type: string, example: "Mantenimiento" }
+
+    Fichaje:
+      type: object
+      properties:
+        IdFichaje: { type: integer }
+        FechaHoraEntrada: { type: string, format: date-time }
+        FechaHoraSalida: { type: string, format: date-time }
+        HorasTrabajadas: { type: number }
+        IdTrabajo: { type: integer }
+        IdUsuario: { type: integer }
+        GeolocalizacionLatitud: { type: number }
+        GeolocalizacionLongitud: { type: number }

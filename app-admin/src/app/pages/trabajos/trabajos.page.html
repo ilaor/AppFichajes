@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de Trabajos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-list *ngIf="trabajos.length > 0; else vacio">
+    <ion-item *ngFor="let t of trabajos">
+      <ion-label>
+        <h2>{{ t.Nombre }}</h2>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="medium" (click)="abrirModalTrabajo(t)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="eliminarTrabajo(t)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #vacio>
+    <ion-text color="medium">
+      <p class="ion-text-center ion-margin-top">No hay trabajos registrados.</p>
+    </ion-text>
+  </ng-template>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="abrirModalTrabajo()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

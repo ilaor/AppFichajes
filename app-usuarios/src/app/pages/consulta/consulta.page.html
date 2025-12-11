@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Consulta Fichajes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Seleccionar día</ion-label>
+    <ion-input
+      type="date"
+      [(ngModel)]="fechaSeleccionada"
+      (ionChange)="onFechaChange($event)">
+    </ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Horas mínimas</ion-label>
+    <ion-select [(ngModel)]="horasMinimas" (ionChange)="onHorasMinimasChange($event)">
+      <ion-select-option *ngFor="let h of [].constructor(13); let i = index" [value]="i">
+        {{ i }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- 🔹 Lista -->
+  <ion-list *ngIf="fichajes.length > 0; else sinFichajes">
+    <ion-item *ngFor="let f of fichajes" [color]="!f.FechaHoraSalida ? 'warning' : ''">
+      <ion-label>
+        <h3>{{ f.NombreTrabajo || ('Trabajo ' + f.IdTrabajo) }}</h3>
+        <p><strong>Entrada:</strong> {{ f.FechaHoraEntrada | date:'short' }}</p>
+        <p><strong>Salida:</strong>  
+          {{ f.FechaHoraSalida ? (f.FechaHoraSalida | date:'short') : 'En curso' }}
+        </p>
+        <p><strong>Horas:</strong>   {{ f.HorasTrabajadas ?? '—' }}</p>
+        <p *ngIf="f.Direccion"><strong>Ubicación:</strong> {{ f.Direccion }}</p>
+      </ion-label>
+
+
+      <ion-button
+        *ngIf="!f.FechaHoraSalida"
+        fill="solid"
+        color="danger"
+        (click)="cerrarFichaje(f)">
+        Finalizar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #sinFichajes>
+    <ion-text>
+      <p class="ion-text-center ion-margin-top">No hay fichajes en esta fecha.</p>
+    </ion-text>
+  </ng-template>
+
+</ion-content>

@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ modo === 'crear' ? 'Nuevo usuario' : 'Editar usuario' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="usuario.Nombre" placeholder="Nombre completo"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Usuario</ion-label>
+    <ion-input [(ngModel)]="usuario.Usuario" placeholder="Nombre de usuario"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Contraseña</ion-label>
+    <ion-input type="password" [(ngModel)]="usuario.Clave" placeholder="Contraseña"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="success" class="ion-margin-top" (click)="guardar()">
+    Guardar
+  </ion-button>
+</ion-content>

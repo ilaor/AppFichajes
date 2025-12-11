@@ -1,0 +1,7 @@
+{
+  "name": "MiPWA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de Fichajes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Filtros -->
+  <ion-card>
+    <ion-card-content>
+
+      <!-- Filtro por usuario -->
+      <ion-item>
+        <ion-label>Usuario</ion-label>
+        <ion-select [(ngModel)]="filtroUsuario" (ionChange)="cargarFichajes()">
+          <ion-select-option [value]="null">Todos</ion-select-option>
+          <ion-select-option *ngFor="let u of usuarios" [value]="u.IdUsuario">
+            {{ u.Nombre }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Filtro fecha -->
+      <ion-item>
+        <ion-label position="stacked">Seleccionar día</ion-label>
+        <ion-input 
+          type="date" 
+          [(ngModel)]="filtroFecha"
+          (ionChange)="onFechaChange()">
+        </ion-input>
+      </ion-item>
+
+    </ion-card-content>
+  </ion-card>
+
+
+  <!-- LISTA DE FICHAJES -->
+<ion-list *ngIf="fichajes.length > 0; else vacio">
+
+  <ion-item 
+    *ngFor="let f of fichajes"
+    [color]="!f.FechaHoraSalida ? 'warning' : ''">
+
+    <ion-label>
+      <h2>{{ f.NombreUsuario }}</h2>
+      <p><strong>Trabajo:</strong> {{ f.NombreTrabajo }}</p>
+
+      <p><strong>Entrada:</strong> {{ f.FechaHoraEntrada | date:'short' }}</p>
+
+      <p><strong>Salida:</strong>
+        {{ f.FechaHoraSalida ? (f.FechaHoraSalida | date:'short') : 'En curso' }}
+      </p>
+
+      <p><strong>Horas:</strong> {{ f.HorasTrabajadas ?? '—' }}</p>
+    </ion-label>
+
+    <ion-buttons slot="end">
+
+  <ion-button color="primary" (click)="abrirMapa(f)">
+  <ion-icon name="location-outline"></ion-icon>
+  Ver mapa
+</ion-button>
+
+
+
+  <ion-button 
+    *ngIf="!f.FechaHoraSalida"
+    color="danger"
+    (click)="cerrarFichaje(f)">
+    <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+    Finalizar
+  </ion-button>
+
+</ion-buttons>
+
+
+  </ion-item>
+
+</ion-list>
+
+<ng-template #vacio>
+  <p class="ion-text-center ion-margin-top">No hay fichajes con estos filtros.</p>
+</ng-template>
+
+</ion-content>

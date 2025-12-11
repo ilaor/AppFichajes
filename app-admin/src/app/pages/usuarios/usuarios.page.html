@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de Usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- 🔹 Lista de usuarios -->
+  <ion-list *ngIf="usuarios.length > 0; else vacio">
+    <ion-item *ngFor="let u of usuarios">
+      <ion-label>
+        <h2>{{ u.Nombre }}</h2>
+        <p><strong>Usuario:</strong> {{ u.Usuario }}</p>
+      </ion-label>
+
+      <!-- 🔹 Botones de acción (Editar / Eliminar) -->
+      <ion-buttons slot="end">
+        <!-- Editar usuario -->
+        <ion-button color="medium" (click)="abrirModalUsuario(u)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+
+        <!-- Eliminar usuario -->
+        <ion-button color="danger" (click)="eliminarUsuario(u)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- 🔹 Mensaje si no hay usuarios -->
+  <ng-template #vacio>
+    <ion-text color="medium">
+      <p class="ion-text-center ion-margin-top">No hay usuarios registrados.</p>
+    </ion-text>
+  </ng-template>
+
+  <!-- 🔹 Botón flotante para crear nuevo usuario -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="abrirModalUsuario()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

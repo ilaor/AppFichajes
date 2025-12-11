@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registrar Fichaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ng-container *ngIf="estado === 'libre'; else fichajeActivo">
+    <ion-item>
+      <ion-label>Trabajo</ion-label>
+      <ion-select placeholder="Selecciona" [(ngModel)]="seleccionado">
+        <ion-select-option *ngFor="let t of trabajos" [value]="t.IdTrabajo">
+          {{ t.Nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="block" (click)="iniciar()" [disabled]="!seleccionado">
+      Iniciar fichaje
+    </ion-button>
+  </ng-container>
+
+  <ng-template #fichajeActivo>
+    <ion-card *ngIf="ultimo">
+      <ion-card-header>
+        <ion-card-title>Fichaje activo</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Entrada:</strong> {{ ultimo.FechaHoraEntrada | date:'short' }}</p>
+        <p><strong>Trabajo:</strong> {{ ultimo.IdTrabajo }}</p>
+        <p *ngIf="ultimo.GeolocalizacionLatitud && ultimo.GeolocalizacionLongitud">
+          <strong>Geo:</strong> {{ ultimo.GeolocalizacionLatitud }}, {{ ultimo.GeolocalizacionLongitud }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" color="danger" (click)="cerrar()">
+      Finalizar fichaje
+    </ion-button>
+
+
+
+
+  </ng-template>
+
+</ion-content>

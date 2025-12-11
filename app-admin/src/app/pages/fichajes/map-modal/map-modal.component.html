@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ubicación del fichaje</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Contenedor del mapa -->
+  <div id="map"></div>
+
+  <!-- Info bajo el mapa -->
+  <div class="info">
+    <h2>{{ usuario }}</h2>
+    <p>Entrada: {{ entrada | date:'short' }}</p>
+  </div>
+</ion-content>
+

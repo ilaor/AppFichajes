@@ -1,0 +1,7 @@
+{
+  "name": "app-usuarios",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
